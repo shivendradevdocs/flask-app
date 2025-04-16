@@ -26,6 +26,9 @@ pipeline {
             }
         }
         stage('Login to docker hub') {
+            when {
+                expression { false }
+            }
             steps {
                 withCredentials([string(credentialsId: 'dockerhubpwd', variable: 'dockerhubpwd')]) {
                 sh 'echo ${dockerhubpwd} | docker login -u sanjeevkt720 --password-stdin'}
@@ -43,6 +46,9 @@ pipeline {
         }
         stage('Push Docker Image')
         {
+            when {
+                expression { false }
+            }
             steps
             {
                 sh 'docker push ${IMAGE_TAG}'
@@ -50,7 +56,11 @@ pipeline {
             }
         }
         stage('Deploy to EKS Cluster') {
+            when {
+                expression { false }
+            }
             steps {
+                
                 sh "kubectl apply -f deployment.yaml"
                 echo "Deployed to EKS Cluster"
             }
