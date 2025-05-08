@@ -1,18 +1,58 @@
 pipeline {
-    agent {
-        docker {
-            image 'python:3.11' // Or any version you need
-        }
+    agent any
+    environment {
+        IMAGE_NAME = 'sanjeevkt720/jenkins-flask-app'
+        IMAGE_TAG = "${IMAGE_NAME}:${env.BUILD_NUMBER}"
+        KUBECONFIG = credentials('kubeconfig-credentials-id')
+
     }
     stages {
-        stage('Install Dependencies') {
+
+        stage('Checkout') {
             steps {
-                sh 'pip install -r requirements.txt'
+                git url: 'https://github.com/kodekloudhub/jenkins-project.git', branch: 'main'
+                sh "ls -ltr"
             }
         }
-        stage('Run Tests') {
+        stage('Setup') {
             steps {
-                sh 'pytest'
+                sh "pip install -r requirements.txt"
+            }
+        }
+        stage('Test') {
+            steps {
+                sh "pytest"
+                sh "whoami"
+            }
+        }
+        stage('Login to docker hub') {
+            steps {
+                withCredentials([string(credentialsId: 'dockerhubpwd', variable: 'dockerhubpwd')]) {
+                sh 'echo ${dockerhubpwd} | docker login -u sanjeevkt720 --password-stdin'}
+                echo 'Login successfully'
+            }
+        }
+        stage('Build Docker Image')
+        {
+            steps
+            {
+                sh 'docker build -t ${IMAGE_TAG} .'
+                echo "Docker image build successfully"
+                sh "docker images"
+            }
+        }
+        stage('Push Docker Image')
+        {
+            steps
+            {
+                sh 'docker push ${IMAGE_TAG}'
+                echo "Docker image push successfully"
+            }
+        }
+        stage('Deploy to EKS Cluster') {
+            steps {
+                sh "kubectl apply -f deployment.yaml"
+                echo "Deployed to EKS Cluster"
             }
         }
     }
