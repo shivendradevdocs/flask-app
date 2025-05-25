@@ -2,9 +2,8 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = 'olubukade/jenkins-project:v1'
+        IMAGE_NAME = 'olubukade/jenkins-project'
         IMAGE_TAG = "${IMAGE_NAME}:${env.BUILD_NUMBER}"
-        KUBECONFIG = credentials('kubeconfig-credentials-id')
     }
 
     stages {
@@ -54,12 +53,6 @@ pipeline {
                 echo "Docker image pushed successfully"
             }
         }
-
-        stage('Deploy to EKS Cluster') {
-            steps {
-                sh "kubectl apply -f deployment.yaml"
-                echo "Deployed to EKS Cluster"
-            }
-        }
     }
 }
+
