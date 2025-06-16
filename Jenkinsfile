@@ -9,7 +9,7 @@ pipeline {
         // Setup stage: Install necessary dependencies
         stage('Setup') {
             steps {
-                sh "pip install -r requirements.txt"
+                sh "pip install -r requirements.txt --break-system-packages"
             }
         }
         // Test stage: Run tests using Pytest
