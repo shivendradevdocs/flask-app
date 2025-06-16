@@ -10,12 +10,13 @@ pipeline {
         stage('Setup') {
             steps {
                 sh "pip install -r requirements.txt --break-system-packages"
-		sh "export PATH=$HOME/.local/bin:$PATH"
+#		sh "export PATH=$HOME/.local/bin:$PATH"
             }
         }
         // Test stage: Run tests using Pytest
         stage('Test') {
             steps {
+                sh "export PATH=$HOME/.local/bin:$PATH"
                 sh "pytest"
             }
         }
