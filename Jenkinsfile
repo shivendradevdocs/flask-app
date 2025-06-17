@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         // Define the base image name and tag using the Git commit SHA for unique identification
-        IMAGE_NAME = 'beoboe/jenkins-docker-projet'
+        IMAGE_NAME = 'beoboe/jenkins-docker-project'
         IMAGE_TAG = "${IMAGE_NAME}:${env.GIT_COMMIT}"
     }
     stages {
