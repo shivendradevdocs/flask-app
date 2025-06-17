@@ -15,8 +15,10 @@ pipeline {
         // Test stage: Run tests using Pytest
         stage('Test') {
             steps {
-                sh "export PATH=$HOME/.local/bin:$PATH"
-                sh "pytest"
+                sh '''
+                   export PATH=$HOME/.local/bin:$PATH"
+                   pytest
+		'''
             }
         }
         // Docker Hub Login stage: Authenticate Jenkins with Docker Hub using secure credentials
