@@ -4,7 +4,7 @@ pipeline {
       BASH_ENV = "${HOME}/.bashrc"
     }
 
-#    stages {
+    stages {
 #        stage('Bootstrap Poetry') {
 #           steps {
 #              sh '''
