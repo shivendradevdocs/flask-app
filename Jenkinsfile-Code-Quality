@@ -3,6 +3,8 @@ pipeline {
     stages {
         stage('environment variables') {
             steps {
+		sh 'echo "*************************************************************************"'
+		sh 'whoami'
                 sh 'printenv'
                 sh 'ls -la'
             }
