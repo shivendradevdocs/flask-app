@@ -1,5 +1,9 @@
 pipeline {
     agent any
+    environment {
+      BASH_ENV = "${HOME}/.bashrc"
+    }
+
     stages {
         stage('Bootstrap Poetry') {
            steps {
