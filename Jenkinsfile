@@ -2,6 +2,9 @@ pipeline {
     agent { 
         label 'awsagent' 
       }
+    options{
+        timeout(time: 3, unit: 'MINUTES')
+    }
 
     stages {
 
