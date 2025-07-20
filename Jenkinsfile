@@ -1,9 +1,6 @@
 pipeline {
-    agent {
-        docker { 
-          image 'python:3.10-slim'     // official Python image with pip included
-          args  '--user root'          // run build steps as root so pip can install globally
-        }
+    agent { 
+        label 'awsagent' 
       }
 
     stages {
