@@ -11,13 +11,6 @@ pipeline {
                 sh "ls -ltr"
             }
         }
-        stage('Install deps') {
-          steps {
-        // use python3 -m pip so we don’t rely on a standalone 'pip' binary
-                sh 'python3 -m pip install --upgrade pip'
-                sh 'python3 -m pip install -r requirements.txt'
-      }
-    }
         stage('Setup') {
             steps {
                 sh "pip install -r requirements.txt"
