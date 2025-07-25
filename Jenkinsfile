@@ -26,6 +26,12 @@ pipeline {
                 sh "whoami"
             }
         }
+        stage('Package Code') {
+            steps {
+                sh "zip -r myapp.zip ./* -x '*.git*'"
+                sh "ls -lart"
+            }
+        }
 
 
     }
