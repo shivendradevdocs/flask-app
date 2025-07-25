@@ -1,7 +1,8 @@
 pipeline {
-    agent { 
-        label 'awsagent' 
-      }
+    // agent { 
+    //     label 'awsagent' 
+    //   }
+    agent any
     options{
         timeout(time: 3, unit: 'MINUTES')
     }
