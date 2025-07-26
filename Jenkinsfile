@@ -51,18 +51,27 @@ pipeline {
             # Copy the app zip to the remote server
             scp -i $MY_SSH_KEY -o StrictHostKeyChecking=no myapp.zip ${username}@${SERVER_IP}:/home/ec2-user/
 
-            # SSH into the remote server and deploy
-            ssh -i $MY_SSH_KEY -o StrictHostKeyChecking=no ${username}@${SERVER_IP} << EOF
-              unzip -o /home/ec2-user/myapp.zip -d /home/ec2-user/app/
-              cd /home/ec2-user/app/
-              source venv/bin/activate
-              pip install -r requirements.txt
-              sudo systemctl restart flaskapp.service
-            EOF
+            # SSH into the remote server and deploy the app
+            ssh -i $MY_SSH_KEY -o StrictHostKeyChecking=no ${username}@${SERVER_IP} <<EOF
+cd /home/ec2-user/app/
+unzip -o /home/ec2-user/myapp.zip -d /home/ec2-user/app/
+source venv/bin/activate
+pip install -r requirements.txt
+sudo systemctl restart flaskapp.service
+EOF
           '''
         }
       }
     }
 
+  }
+
+  post {
+    failure {
+      echo '❌ Deployment failed!'
+    }
+    success {
+      echo '✅ Deployment succeeded!'
+    }
   }
 }
